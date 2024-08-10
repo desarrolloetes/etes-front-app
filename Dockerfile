@@ -11,14 +11,13 @@ ENV REACT_APP_SOURCE_STANDARD=3
 ENV NODE_ENV=development
 ENV PORT=80
 
-
-
 # Install Nginx and envsubst
 RUN apk add --no-cache nginx gettext
 
 WORKDIR /opt/web
 COPY package.json package-lock.json ./
 RUN npm install -g npm@10.8.2
+RUN npm install react-scripts -g --silent
 RUN npm install --force
 
 ENV PATH="./node_modules/.bin:$PATH"

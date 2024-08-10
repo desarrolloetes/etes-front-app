@@ -11,6 +11,8 @@ ENV REACT_APP_SOURCE_STANDARD=3
 ENV NODE_ENV=development
 ENV PORT=80
 
+
+
 # Install Nginx and envsubst
 RUN apk add --no-cache nginx gettext
 

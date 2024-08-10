@@ -1,0 +1,46 @@
+#docker build -t image_name
+FROM node:16.5.0-alpine 
+
+
+# Se define como variable de ambiente directorio de trabajo
+ENV appDir=/var/www/app
+
+# Se define como variable de ambiente que corra como productivo
+ENV NODE_ENV=production
+
+#Se especifica directorio de trabajo
+WORKDIR ${appDir}
+
+# Se crea el directorio antes definido
+RUN mkdir -p ${appDir}
+
+#RUN cat ${CI_COMMIT_REF_NAME}
+
+# Se empaqueta el código fuente
+ADD . ${appDir}
+
+#RUN npm config set registry "https://nexus-oss.sb.cl/repository/npmjs/"
+
+# Se instalan dependencias especificadas en package.json
+RUN rm -rf node_modules package-lock.json build
+RUN npm install --force --verbose
+RUN npm run build
+
+# Se define puerto a exponer
+EXPOSE 3000
+
+# Crear usuario
+RUN adduser -D dockeruser
+
+#Creamos archivo con serive account
+#RUN echo $SERVICE_ACCOUNT >> /var/www/app/sa.json
+
+# Asignar permisos
+RUN chown -R dockeruser /var/www/app
+
+# Se define el usuario a ejecutar
+USER dockeruser
+
+# Se inicia aplicacion
+ENTRYPOINT ["npm"]
+CMD ["start"]

@@ -15,7 +15,7 @@ ENV PORT=80
 RUN apk add --no-cache nginx gettext
 
 WORKDIR /opt/web
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json .
 RUN npm install -g npm@10.8.2
 RUN npm install react-scripts -g --silent
 RUN npm install --force
